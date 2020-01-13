@@ -22,6 +22,41 @@ namespace TorneioFutebol.Controllers
             return View(db.Jogos.ToList());
         }
 
+        // GET: Jogos/Definidos/5
+        public ActionResult Definidos(int idTorneio)
+        {
+            Torneio torneio = db.Torneios.Find(idTorneio);
+
+            return View(torneio);
+        }
+
+
+        // GET: Jogos/Definir/5
+        public ActionResult Definir(int idTorneio)
+        {
+            Torneio torneio = db.Torneios.Find(idTorneio);
+            return View(torneio.ProximoJogoADefinir());
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Definir([Bind(Include = "idJogo,idTime1, idTime2")] Jogo jogo, int idTorneio)
+        {
+            if (ModelState.IsValid)
+            {
+                Torneio torneio = db.Torneios.Find(jogo.Torneio.Id);
+                db.Entry(torneio).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+
+            return View(jogo);
+        }
+
+
+
         // GET: Jogos/Details/5
         public ActionResult Details(int? id)
         {
@@ -38,9 +73,10 @@ namespace TorneioFutebol.Controllers
         }
 
         // GET: Jogos/Create
-        public ActionResult Create()
+        public ActionResult Create(int idTorneio)
         {
-            return View();
+            Torneio torneio = db.Torneios.Find(idTorneio);
+            return View(torneio);
         }
 
         // POST: Jogos/Create

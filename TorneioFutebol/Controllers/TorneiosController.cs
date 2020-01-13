@@ -32,7 +32,7 @@ namespace TorneioFutebol.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,nome")] Torneio torneio)
+        public ActionResult Create([Bind(Include = "id,nome,TotalTimes")] Torneio torneio)
         {
             if (ModelState.IsValid)
             {
@@ -79,12 +79,14 @@ namespace TorneioFutebol.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,nome")] Torneio torneio)
+        public ActionResult Edit([Bind(Include = "id,nome,TotalTimes")] Torneio torneio)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(torneio).State = EntityState.Modified;
                 db.SaveChanges();
+                torneio = db.Torneios.Find(torneio.Id);
+                torneio.CriarJogos();
                 var parametro = new RouteValueDictionary();
                 parametro.Add("id", torneio.Id);
                 return RedirectToAction("Gerenciar", parametro);

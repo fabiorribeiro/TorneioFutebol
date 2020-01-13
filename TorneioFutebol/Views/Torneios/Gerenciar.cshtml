@@ -8,7 +8,7 @@
 
 <div>
     <p>@Html.ActionLink("Editar torneio", "Edit", new { id = Model.Id })</p>
-    <hr/>
+    <hr />
 
     <table class="table-condensed">
         <tr>
@@ -31,12 +31,20 @@
                     </td>
                 </tr>
             }
-        }
-        @if (Model.Times.Count < 16)
-        {
-            <tr>
-                <td colspan="3" align="center">@Html.ActionLink("Adicionar time", "Create", "./Times", new { idTorneio = Model.Id }, null)</td>
-            </tr>
+
+            if (!Model.TimesCompletos())
+            {
+                <tr>
+                    <td colspan="3" align="center">@Html.ActionLink("Adicionar time", "Create", "./Times", new { idTorneio = Model.Id }, null)</td>
+                </tr>
+            }
         }
     </table>
-</div>
+
+    @if (Model.TimesCompletos())
+    {
+        <hr />
+        @Html.ActionLink("Definir jogos", "Create", "./Jogos", new { idTorneio = Model.Id }, null)
+    }
+
+    </div>

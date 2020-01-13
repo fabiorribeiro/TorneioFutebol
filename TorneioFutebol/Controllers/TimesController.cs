@@ -48,10 +48,10 @@ namespace TorneioFutebol.Controllers
         {
             if (ModelState.IsValid)
             {
-                var timesTorneio = db.Torneios.Find(idTorneio).Times;
-                if (timesTorneio.Count < 16)
+                var torneio = db.Torneios.Find(idTorneio);
+                if (!torneio.TimesCompletos())
                 {
-                    timesTorneio.Add(time);
+                    torneio.Times.Add(time);
                     db.SaveChanges();
                     var parametro = new RouteValueDictionary();
                     parametro.Add("id", idTorneio);
@@ -120,7 +120,6 @@ namespace TorneioFutebol.Controllers
         public ActionResult DeleteConfirmed(int id, int idTorneio)
         {
             Time time = db.Times.Find(id);
-            int torneioId = time.Torneio.Id;
             db.Times.Remove(time);
             db.SaveChanges();
             var parametro = new RouteValueDictionary();

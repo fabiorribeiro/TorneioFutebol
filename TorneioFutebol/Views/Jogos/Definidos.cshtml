@@ -1,0 +1,28 @@
+﻿@model TorneioFutebol.Models.Torneio
+
+<div>
+    <h4>Torneio</h4>
+    <hr />
+
+    <table class="table-condensed">
+        <tr>
+            <th colspan="5">Jogos definidos</th>
+        </tr>
+        <tr>
+            <th>Jogo</th>
+            <th>Time 1</th>
+            <th>x</th>
+            <th>Time 2</th>
+        </tr>
+
+        @foreach (var item in Model.JogosDefinidos())
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Nome)</td>
+                <td>@Html.DisplayFor(modelItem => item.Time1.Nome)</td>
+                <td>x</td>
+                <td>@Html.DisplayFor(modelItem => item.Time2.Nome)</td>
+            </tr>
+        }
+    </table>
+</div>

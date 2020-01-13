@@ -154,6 +154,18 @@
     <Compile Include="Migrations\202001130040522_Ajustes1.designer.cs">
       <DependentUpon>202001130040522_Ajustes1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202001131604158_TotalTimes.cs" />
+    <Compile Include="Migrations\202001131604158_TotalTimes.designer.cs">
+      <DependentUpon>202001131604158_TotalTimes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001131734375_AddTorneioJogo.cs" />
+    <Compile Include="Migrations\202001131734375_AddTorneioJogo.designer.cs">
+      <DependentUpon>202001131734375_AddTorneioJogo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001132044101_AddTorneioJogo1.cs" />
+    <Compile Include="Migrations\202001132044101_AddTorneioJogo1.designer.cs">
+      <DependentUpon>202001132044101_AddTorneioJogo1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Jogo.cs" />
     <Compile Include="Models\Time.cs" />
@@ -211,6 +223,8 @@
     <Content Include="Views\Jogos\Edit.cshtml" />
     <Content Include="Views\Jogos\Index.cshtml" />
     <Content Include="Views\Torneios\Gerenciar.cshtml" />
+    <Content Include="Views\Jogos\Definidos.cshtml" />
+    <Content Include="Views\Jogos\Definir.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -240,6 +254,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202001130040522_Ajustes1.resx">
       <DependentUpon>202001130040522_Ajustes1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001131604158_TotalTimes.resx">
+      <DependentUpon>202001131604158_TotalTimes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001131734375_AddTorneioJogo.resx">
+      <DependentUpon>202001131734375_AddTorneioJogo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001132044101_AddTorneioJogo1.resx">
+      <DependentUpon>202001132044101_AddTorneioJogo1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
