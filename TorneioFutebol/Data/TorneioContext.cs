@@ -12,5 +12,6 @@ namespace TorneioFutebol.Data
         public DbSet<Torneio> Torneios { get; set; }
         public DbSet<Jogo> Jogos { get; set; }
         public DbSet<Time> Times { get; set; }
+
     }
 }

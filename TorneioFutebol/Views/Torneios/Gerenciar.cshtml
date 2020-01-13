@@ -1,0 +1,42 @@
+﻿@model TorneioFutebol.Models.Torneio
+
+@{
+    ViewBag.Title = "Gerenciar " + Model.Nome;
+}
+
+<h2>Gerenciar @Html.DisplayFor(model => model.Nome)</h2>
+
+<div>
+    <p>@Html.ActionLink("Editar torneio", "Edit", new { id = Model.Id })</p>
+    <hr/>
+
+    <table class="table-condensed">
+        <tr>
+            <th colspan="3" align="center">Times cadastrados</th>
+        </tr>
+
+        @{
+            int itens = 0;
+            foreach (var item in Model.Times)
+            {
+                itens++;
+                <tr>
+                    <td>@itens</td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar time", "Edit", "./Times", new { id = item.Id, idTorneio = Model.Id }, null) |
+                        @Html.ActionLink("Excluir", "Delete", "./Times", new { id = item.Id, idTorneio = Model.Id }, null)
+                    </td>
+                </tr>
+            }
+        }
+        @if (Model.Times.Count < 16)
+        {
+            <tr>
+                <td colspan="3" align="center">@Html.ActionLink("Adicionar time", "Create", "./Times", new { idTorneio = Model.Id }, null)</td>
+            </tr>
+        }
+    </table>
+</div>

@@ -55,7 +55,10 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -128,10 +131,30 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\JogosController.cs" />
+    <Compile Include="Controllers\TimesController.cs" />
+    <Compile Include="Controllers\TorneiosController.cs" />
     <Compile Include="Data\TorneioContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202001092020070_InitialCreate.cs" />
+    <Compile Include="Migrations\202001092020070_InitialCreate.designer.cs">
+      <DependentUpon>202001092020070_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001101742164_AddTimes.cs" />
+    <Compile Include="Migrations\202001101742164_AddTimes.designer.cs">
+      <DependentUpon>202001101742164_AddTimes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001120035405_Ajustes.cs" />
+    <Compile Include="Migrations\202001120035405_Ajustes.designer.cs">
+      <DependentUpon>202001120035405_Ajustes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001130040522_Ajustes1.cs" />
+    <Compile Include="Migrations\202001130040522_Ajustes1.designer.cs">
+      <DependentUpon>202001130040522_Ajustes1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Jogo.cs" />
     <Compile Include="Models\Time.cs" />
     <Compile Include="Models\Torneio.cs" />
@@ -173,6 +196,21 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Torneios\Create.cshtml" />
+    <Content Include="Views\Torneios\Delete.cshtml" />
+    <Content Include="Views\Torneios\Edit.cshtml" />
+    <Content Include="Views\Torneios\Index.cshtml" />
+    <Content Include="Views\Times\Create.cshtml" />
+    <Content Include="Views\Times\Delete.cshtml" />
+    <Content Include="Views\Times\Details.cshtml" />
+    <Content Include="Views\Times\Edit.cshtml" />
+    <Content Include="Views\Times\Index.cshtml" />
+    <Content Include="Views\Jogos\Create.cshtml" />
+    <Content Include="Views\Jogos\Delete.cshtml" />
+    <Content Include="Views\Jogos\Details.cshtml" />
+    <Content Include="Views\Jogos\Edit.cshtml" />
+    <Content Include="Views\Jogos\Index.cshtml" />
+    <Content Include="Views\Torneios\Gerenciar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -189,6 +227,23 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202001092020070_InitialCreate.resx">
+      <DependentUpon>202001092020070_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001101742164_AddTimes.resx">
+      <DependentUpon>202001101742164_AddTimes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001120035405_Ajustes.resx">
+      <DependentUpon>202001120035405_Ajustes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001130040522_Ajustes1.resx">
+      <DependentUpon>202001130040522_Ajustes1.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
