@@ -6,6 +6,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using TorneioFutebol.Apoio;
 using TorneioFutebol.Data;
 using TorneioFutebol.Models;
 
@@ -27,9 +28,6 @@ namespace TorneioFutebol.Controllers
             return View();
         }
 
-        // POST: Torneios/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,nome,TotalTimes")] Torneio torneio)
@@ -85,13 +83,30 @@ namespace TorneioFutebol.Controllers
             {
                 db.Entry(torneio).State = EntityState.Modified;
                 db.SaveChanges();
-                torneio = db.Torneios.Find(torneio.Id);
-                torneio.CriarJogos();
+
+                db.Torneios.Include(T => T.Times).Include(T => T.Jogos).Load();
+                torneio.CriarJogos(db);
+
                 var parametro = new RouteValueDictionary();
                 parametro.Add("id", torneio.Id);
                 return RedirectToAction("Gerenciar", parametro);
             }
             return View();
+        }
+
+        // GET: Torneios/Definir
+        public ActionResult Definir(int idTorneio)
+        {
+            Torneio torneio = db.Torneios.Find(idTorneio);
+            if (torneio == null)
+            {
+                return HttpNotFound();
+            }
+
+            torneio.DefinirJogos(db);
+            var parametro = new RouteValueDictionary();
+            parametro.Add("idTorneio", idTorneio);
+            return RedirectToAction("Gerenciar", "Jogos", parametro);
         }
 
 

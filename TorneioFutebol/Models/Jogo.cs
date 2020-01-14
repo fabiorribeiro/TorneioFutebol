@@ -8,6 +8,8 @@ namespace TorneioFutebol.Models
     public class Jogo
     {
         public int Id { get; set; }
+        public int NumeroJogo { get; set; }
+        public int Rodada { get; set; }
         public string Nome { get; set; }
         public virtual Time Time1 { get; set; }
         public virtual Time Time2 { get; set; }

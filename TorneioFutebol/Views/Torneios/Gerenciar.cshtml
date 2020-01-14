@@ -44,7 +44,7 @@
     @if (Model.TimesCompletos())
     {
         <hr />
-        @Html.ActionLink("Definir jogos", "Create", "./Jogos", new { idTorneio = Model.Id }, null)
+        @Html.ActionLink("Definir jogos", "Definir", new { idTorneio = Model.Id }, null)
     }
 
     </div>

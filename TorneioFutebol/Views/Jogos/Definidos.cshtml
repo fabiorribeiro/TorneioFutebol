@@ -15,7 +15,7 @@
             <th>Time 2</th>
         </tr>
 
-        @foreach (var item in Model.JogosDefinidos())
+        @foreach (var item in Model.JogosDefinidos(Model.Jogos.ToList()))
         {
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.Nome)</td>

@@ -127,6 +127,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Apoio\Funcoes.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -165,6 +166,14 @@
     <Compile Include="Migrations\202001132044101_AddTorneioJogo1.cs" />
     <Compile Include="Migrations\202001132044101_AddTorneioJogo1.designer.cs">
       <DependentUpon>202001132044101_AddTorneioJogo1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001141715181_NumeroJogo.cs" />
+    <Compile Include="Migrations\202001141715181_NumeroJogo.designer.cs">
+      <DependentUpon>202001141715181_NumeroJogo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001141905338_Rodada.cs" />
+    <Compile Include="Migrations\202001141905338_Rodada.designer.cs">
+      <DependentUpon>202001141905338_Rodada.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Jogo.cs" />
@@ -217,14 +226,9 @@
     <Content Include="Views\Times\Details.cshtml" />
     <Content Include="Views\Times\Edit.cshtml" />
     <Content Include="Views\Times\Index.cshtml" />
-    <Content Include="Views\Jogos\Create.cshtml" />
-    <Content Include="Views\Jogos\Delete.cshtml" />
-    <Content Include="Views\Jogos\Details.cshtml" />
-    <Content Include="Views\Jogos\Edit.cshtml" />
-    <Content Include="Views\Jogos\Index.cshtml" />
     <Content Include="Views\Torneios\Gerenciar.cshtml" />
     <Content Include="Views\Jogos\Definidos.cshtml" />
-    <Content Include="Views\Jogos\Definir.cshtml" />
+    <Content Include="Views\Jogos\Gerenciar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -263,6 +267,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202001132044101_AddTorneioJogo1.resx">
       <DependentUpon>202001132044101_AddTorneioJogo1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001141715181_NumeroJogo.resx">
+      <DependentUpon>202001141715181_NumeroJogo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001141905338_Rodada.resx">
+      <DependentUpon>202001141905338_Rodada.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

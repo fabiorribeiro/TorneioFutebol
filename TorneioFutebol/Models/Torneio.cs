@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using TorneioFutebol.Data;
@@ -18,19 +19,59 @@ namespace TorneioFutebol.Models
         public virtual ICollection<Jogo> Jogos { get; set; }
         public virtual ICollection<Time> Times { get; set; }
 
-        public void CriarJogos()
+        public bool CriarJogos(TorneioContext db)
         {
-            TorneioContext db = new TorneioContext();
-
-            for (int i = 1; i < TotalTimes; i++)
+            if (Jogos.Count == 0)
             {
-                Jogo novoJogo = new Jogo()
+                for (int i = 1; i < TotalTimes; i++)
                 {
-                    Nome = $"Jogo {i}"
-                };
-                db.Torneios.Find(Id).Jogos.Add(novoJogo);
+                    Jogo novoJogo = new Jogo()
+                    {
+                        Nome = $"Jogo {i}",
+                        NumeroJogo = i,
+                    };
+
+                    var numRodadas = Math.Sqrt(TotalTimes);
+
+                    if (i <= (TotalTimes / 2))
+                    {
+                        novoJogo.Rodada = 1;
+                    } 
+                    else
+                    {
+                        novoJogo.Rodada = 2;
+                    }
+
+                    Jogos.Add(novoJogo);
+
+                    //db.Torneios.Find(Id).Jogos.Add(novoJogo);
+                    db.SaveChanges();
+                }
+            }
+
+            return false;
+        }
+
+        public bool DefinirJogos(TorneioContext db)
+        {
+            if (Jogos.Count == TotalTimes - 1 && Times.Count == TotalTimes)
+            {
+                var times = Times.ToList();
+                foreach (var jogo in Jogos)
+                {
+                    if (jogo.Rodada != 1) break;
+
+                    jogo.Time1 = times[0];
+                    times.RemoveAt(0);
+                    jogo.Time2 = times[0];
+                    times.RemoveAt(0);
+                }
+
+                db.Entry(this).State = EntityState.Modified;
                 db.SaveChanges();
             }
+
+            return true;
         }
 
     public bool TimesCompletos()
@@ -38,11 +79,11 @@ namespace TorneioFutebol.Models
             return Times.Count == TotalTimes;
         }
 
-        public List<Jogo> JogosDefinidos()
+        public List<Jogo> JogosDefinidos(List<Jogo> jogos)
         {
             List<Jogo> definidos = new List<Jogo>();
 
-            foreach (var jogo in Jogos)
+            foreach (var jogo in jogos)
             {
                 if (jogo.Time1 != null && jogo.Time2 != null)
                 {
@@ -74,7 +115,7 @@ namespace TorneioFutebol.Models
 
             foreach (var time in Times)
             {
-                if (JogosDefinidos().Find(j => j.Time1 == time && j.Time2 == time) == null)
+                if (JogosDefinidos(null).Find(j => j.Time1 == time && j.Time2 == time) == null)
                 {
                     disponiveis.Add(time);
                 }
