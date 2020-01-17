@@ -1,43 +1,53 @@
 ﻿@model TorneioFutebol.Models.Torneio
 
 @{
-    ViewBag.Title = "Definir jogos";
+    ViewBag.Title = "Gerenciar jogos";
 }
 
 <h2><a href="../Torneios/Gerenciar/@Model.Id">@Model.Nome</a></h2>
 
+<div>
+    <h4>Torneio</h4>
+    <hr />
 
-@{
-    Html.RenderAction("Definidos", "Jogos", new { idTorneio = Model.Id });
-}
-
-@{
-    if (Model.JogosDisponiveis().Count > 0)
+    @for (int i = 1; i <= Model.Rodadas(); i++)
     {
-        <h4>Definir jogo</h4>
+        <div>
+            <form>
+                <table class="" border="0" align="center">
+                    <tr>
+                        @if (i == Model.Rodadas())
+                        {
+                            <td colspan="4" align="center" style="font-weight:bold">Final</td>
+                        }
+                        else
+                        {
+                            <td colspan="4" align="center" style="font-weight:bold">@String.Concat(i, "ª Rodada")</td>
+                        }
+                    </tr>
 
-        using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
-
-            <div class="form-horizontal">
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Create" class="btn btn-default" />
-                    </div>
-                </div>
-            </div>
-        }
-
+                    @foreach (var jogo in Model.JogosPorRodada(i))
+                    {
+                        <tr>
+                            <td></td>
+                            <td align="center">@Html.DisplayFor(modelItem => jogo.Time1.Nome)</td>
+                            <td></td>
+                            <td align="center">@Html.DisplayFor(modelItem => jogo.Time2.Nome)</td>
+                        </tr>
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => jogo.Nome)</td>
+                            <td align="center"><input type="number" min="0" max="20" style="margin: 0 30px" /></td>
+                            <td align="center">X</td>
+                            <td align="center"><input type="number" min="0" max="20" style="margin: 0 30px" /></td>
+                        </tr>
+                        <tr><td colspan="4"><hr style="margin:10px 0 !important" /></td></tr>
+                    }
+                </table>
+                <
+            </form>
+        </div>
+        
+        <br />
     }
-}
+</div>
+

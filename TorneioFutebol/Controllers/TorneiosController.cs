@@ -36,6 +36,10 @@ namespace TorneioFutebol.Controllers
             {
                 db.Torneios.Add(torneio);
                 db.SaveChanges();
+
+                db.Torneios.Include(T => T.Times).Include(T => T.Jogos).Load();
+                torneio.CriarJogos(db);
+
                 return RedirectToAction("Index");
             }
 
@@ -85,8 +89,11 @@ namespace TorneioFutebol.Controllers
                 db.SaveChanges();
 
                 db.Torneios.Include(T => T.Times).Include(T => T.Jogos).Load();
-                torneio.CriarJogos(db);
-
+                if (!torneio.JogosCriados())
+                {
+                    torneio.CriarJogos(db);
+                }
+                
                 var parametro = new RouteValueDictionary();
                 parametro.Add("id", torneio.Id);
                 return RedirectToAction("Gerenciar", parametro);

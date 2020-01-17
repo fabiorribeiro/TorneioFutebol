@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
@@ -23,30 +24,21 @@ namespace TorneioFutebol.Models
         {
             if (Jogos.Count == 0)
             {
+                List<int> jogosPorRodada = mapearJogosRodadas(TotalTimes);
+
                 for (int i = 1; i < TotalTimes; i++)
                 {
                     Jogo novoJogo = new Jogo()
                     {
                         Nome = $"Jogo {i}",
                         NumeroJogo = i,
+                        Rodada = jogosPorRodada[i - 1]
                     };
 
-                    var numRodadas = Math.Sqrt(TotalTimes);
-
-                    if (i <= (TotalTimes / 2))
-                    {
-                        novoJogo.Rodada = 1;
-                    } 
-                    else
-                    {
-                        novoJogo.Rodada = 2;
-                    }
-
                     Jogos.Add(novoJogo);
-
-                    //db.Torneios.Find(Id).Jogos.Add(novoJogo);
                     db.SaveChanges();
                 }
+                return true;
             }
 
             return false;
@@ -74,64 +66,77 @@ namespace TorneioFutebol.Models
             return true;
         }
 
-    public bool TimesCompletos()
+        private List<int> mapearJogosRodadas(int numTimes) {
+            List<int> jogosRodadas = new List<int>();
+
+            int numJogos = numTimes / 2;
+
+            int rodada = 1;
+            while (numJogos >= 1)
+            {
+                for (int j = 0; j < numJogos; j++)
+                {
+                    jogosRodadas.Add(rodada);
+                }
+                rodada++;
+                numJogos = numJogos / 2;
+            }
+
+            return jogosRodadas;
+        }
+
+        public bool TimesCompletos()
         {
             return Times.Count == TotalTimes;
         }
 
-        public List<Jogo> JogosDefinidos(List<Jogo> jogos)
+        //public List<Jogo> JogosDisponiveis()
+        //{
+        //    List<Jogo> disponiveis = new List<Jogo>();
+
+        //    foreach (var jogo in Jogos)
+        //    {
+        //        if (jogo.Time1 == null || jogo.Time2 == null)
+        //        {
+        //            disponiveis.Add(jogo);
+        //        }
+        //    }
+
+        //    return disponiveis;
+        //}
+
+        public int Rodadas()
         {
-            List<Jogo> definidos = new List<Jogo>();
-
-            foreach (var jogo in jogos)
-            {
-                if (jogo.Time1 != null && jogo.Time2 != null)
-                {
-                    definidos.Add(jogo);
-                }
-            }
-
-            return definidos;
+            return (int)Math.Sqrt(TotalTimes);
+        }
+        
+        public bool JogosCriados()
+        {
+            return Jogos.Count == TotalTimes - 1;
         }
 
-        public List<Jogo> JogosDisponiveis()
+        public bool JogosDefinidos()
         {
-            List<Jogo> disponiveis = new List<Jogo>();
+            bool definida = true;
 
-            foreach (var jogo in Jogos)
+            for (int i = 0; i < Jogos.Count; i++)
             {
-                if (jogo.Time1 == null || jogo.Time2 == null)
+                if (Jogos.ElementAt(i).Rodada > 1) break;
+
+                if (Jogos.ElementAt(i).Time1 == null || Jogos.ElementAt(i).Time2 == null)
                 {
-                    disponiveis.Add(jogo);
+                    definida = false;
+                    break;
                 }
             }
+            
 
-            return disponiveis;
+            return definida;
         }
 
-        public List<Time> TimesDisponiveis()
+        public List<Jogo> JogosPorRodada(int numRodada)
         {
-            List<Time> disponiveis = new List<Time>();
-
-            foreach (var time in Times)
-            {
-                if (JogosDefinidos(null).Find(j => j.Time1 == time && j.Time2 == time) == null)
-                {
-                    disponiveis.Add(time);
-                }
-            }
-
-            return disponiveis;
-        }
-
-        public Jogo ProximoJogoADefinir()
-        {
-            var jogosDisponiveis = JogosDisponiveis();
-            if (jogosDisponiveis.Count > 0)
-            {
-                return jogosDisponiveis[0];
-            }
-            return null;
+            return Jogos.Where(j => j.Rodada == numRodada).ToList();
         }
     }
 }

@@ -6,7 +6,7 @@
 
     <table class="table-condensed">
         <tr>
-            <th colspan="5">Jogos definidos</th>
+            <th colspan="5">Tabela de jogos</th>
         </tr>
         <tr>
             <th>Jogo</th>
@@ -15,7 +15,12 @@
             <th>Time 2</th>
         </tr>
 
-        @foreach (var item in Model.JogosDefinidos(Model.Jogos.ToList()))
+        @for (int rodada = 1; rodada <= Model.Rodadas(); rodada++)
+        {
+
+        }
+
+        @foreach (var item in Model.Jogos)
         {
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.Nome)</td>
