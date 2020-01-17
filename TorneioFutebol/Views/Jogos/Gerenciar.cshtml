@@ -2,6 +2,8 @@
 
 @{
     ViewBag.Title = "Gerenciar jogos";
+    string nomeRodada = "";
+    string rodadaHabilitada = "";
 }
 
 <h2><a href="../Torneios/Gerenciar/@Model.Id">@Model.Nome</a></h2>
@@ -13,17 +15,28 @@
     @for (int i = 1; i <= Model.Rodadas(); i++)
     {
         <div>
-            <form>
+            @using (Html.BeginForm()) { 
                 <table class="" border="0" align="center">
+                    @if (Model.RodadaAtiva(i))
+                    {
+                        rodadaHabilitada = "";
+                    }
+                    else
+                    {
+                        rodadaHabilitada = "disabled";
+                    }
+
+                    @if (i == Model.Rodadas())
+                    {
+                        nomeRodada = "Final";
+                    }
+                    else
+                    {
+                        nomeRodada = String.Concat(i, "ª Rodada");
+                    }
+
                     <tr>
-                        @if (i == Model.Rodadas())
-                        {
-                            <td colspan="4" align="center" style="font-weight:bold">Final</td>
-                        }
-                        else
-                        {
-                            <td colspan="4" align="center" style="font-weight:bold">@String.Concat(i, "ª Rodada")</td>
-                        }
+                        <td colspan="4" align="center" style="font-weight:bold">@nomeRodada</td>
                     </tr>
 
                     @foreach (var jogo in Model.JogosPorRodada(i))
@@ -36,15 +49,42 @@
                         </tr>
                         <tr>
                             <td>@Html.DisplayFor(modelItem => jogo.Nome)</td>
-                            <td align="center"><input type="number" min="0" max="20" style="margin: 0 30px" /></td>
+                            <td align="center">
+                                @if (jogo.JogoEncerrado)
+                                {
+                                    <input id="@Html.IdFor(modelItem => jogo.Time1.Id)" name="@Html.DisplayNameFor(modelItem => jogo.GolsTime1)" value="@Html.DisplayFor(modelItem => jogo.GolsTime1)" type="number" min="0" max="20" style="margin: 0 30px" />
+                                }
+                                else
+                                {
+                                    <input id="@Html.IdFor(modelItem => jogo.Time1.Id)" name="@Html.DisplayNameFor(modelItem => jogo.GolsTime1)" type="number" min="0" max="7" style="margin: 0 30px" />
+                                }
+                            </td>
                             <td align="center">X</td>
-                            <td align="center"><input type="number" min="0" max="20" style="margin: 0 30px" /></td>
+                            <td align="center">
+                                @if (jogo.JogoEncerrado)
+                                {
+                                    <input id="@Html.IdFor(modelItem => jogo.Time2.Id)" name="@Html.DisplayNameFor(modelItem => jogo.GolsTime2)" value="@Html.DisplayFor(modelItem => jogo.GolsTime2)" type="number" min="0" max="20" style="margin: 0 30px" />
+                                }
+                                else
+                                {
+                                    <input id="@Html.IdFor(modelItem => jogo.Time2.Id)" name="@Html.DisplayNameFor(modelItem => jogo.GolsTime2)" type="number" min="0" max="7" style="margin: 0 30px" />
+                                }
+                            </td>
                         </tr>
                         <tr><td colspan="4"><hr style="margin:10px 0 !important" /></td></tr>
                     }
                 </table>
-                <
-            </form>
+                <div style="display:flex; justify-content:center;">
+                    <input type="submit" value="@String.Concat("Salvar dados da ", nomeRodada)" class="btn btn-default" @rodadaHabilitada />
+                    &nbsp
+
+                    <input data-val="true" data-val-number="The field Int32 must be a number." data-val-required="O campo Int32 é obrigatório." id="idTorneio" name="idTorneio" type="hidden" value="1">
+                    <input data-val="true" data-val-number="The field Int32 must be a number." data-val-required="O campo Int32 é obrigatório." id="rodada" name="rodada" type="hidden" value="2">
+
+                    <input type="submit" name="GerarResultado" value="Gerar dados da aleatoriamente" class="btn btn-default" @rodadaHabilitada />
+                    @*@Html.ActionLink(@String.Concat("Gerar dados da aleatoriamente"), "GerarResultado", new { idTorneio = Model.Id, rodada = i }, new { @class = "btn btn-default" })*@
+                </div>
+            }
         </div>
         
         <br />

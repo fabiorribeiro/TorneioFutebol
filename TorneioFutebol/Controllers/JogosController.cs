@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using TorneioFutebol.Data;
 using TorneioFutebol.Models;
 using EntityState = System.Data.Entity.EntityState;
@@ -24,8 +25,21 @@ namespace TorneioFutebol.Controllers
             return View(torneio);
         }
 
+        public ActionResult GerarResultado(int idTorneio, int rodada)
+        {
+            Torneio torneio = db.Torneios.Find(idTorneio);
 
-        // GET: Jogos/Create
+            torneio.GerarResultados(db, rodada);
+
+            var parametro = new RouteValueDictionary();
+            parametro.Add("idTorneio", idTorneio);
+
+            return RedirectToAction("Gerenciar", parametro);
+        }
+
+
+
+        // GET: Jogos/Gerenciar
         public ActionResult Gerenciar(int idTorneio)
         {
             Torneio torneio = db.Torneios.Find(idTorneio);

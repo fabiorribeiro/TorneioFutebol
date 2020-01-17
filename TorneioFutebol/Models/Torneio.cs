@@ -90,20 +90,37 @@ namespace TorneioFutebol.Models
             return Times.Count == TotalTimes;
         }
 
-        //public List<Jogo> JogosDisponiveis()
-        //{
-        //    List<Jogo> disponiveis = new List<Jogo>();
+        public void GerarResultados(TorneioContext db, int numRodada)
+        {
+            foreach (var jogo in JogosPorRodada(numRodada))
+            {
+                if (!jogo.JogoEncerrado)
+                {
+                    int gols1 = new Random().Next(0, 7);
+                    int gols2 = new Random().Next(0, 7);
 
-        //    foreach (var jogo in Jogos)
-        //    {
-        //        if (jogo.Time1 == null || jogo.Time2 == null)
-        //        {
-        //            disponiveis.Add(jogo);
-        //        }
-        //    }
+                    while (gols1 == gols2)
+                    {
+                        gols2 = new Random().Next(0, 7);
+                    }
 
-        //    return disponiveis;
-        //}
+                    jogo.GolsTime1 = gols1;
+                    jogo.GolsTime2 = gols2;
+                    if (gols1 > gols2)
+                    {
+                        jogo.IdTimeVencedor = jogo.Time1.Id;
+                    }
+                    else
+                    {
+                        jogo.IdTimeVencedor = jogo.Time2.Id;
+                    }
+                    jogo.JogoEncerrado = true;
+
+                    db.Entry(this).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+        }
 
         public int Rodadas()
         {
@@ -137,6 +154,30 @@ namespace TorneioFutebol.Models
         public List<Jogo> JogosPorRodada(int numRodada)
         {
             return Jogos.Where(j => j.Rodada == numRodada).ToList();
+        }
+
+        public bool RodadaAtiva(int numRodada)
+        {
+            if (RodadaEncerrada(numRodada - 1))
+            {
+                return !RodadaEncerrada(numRodada);
+            }
+
+            return false;
+        }
+
+        private bool RodadaEncerrada(int numRodada) {
+            if (numRodada == 0) return true;
+
+            foreach (var jogo in JogosPorRodada(numRodada))
+            {
+                if (!jogo.JogoEncerrado)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

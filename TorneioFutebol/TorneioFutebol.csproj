@@ -183,6 +183,14 @@
     <Compile Include="Migrations\202001152008427_Rodadas1.designer.cs">
       <DependentUpon>202001152008427_Rodadas1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202001171353570_GolsTimes.cs" />
+    <Compile Include="Migrations\202001171353570_GolsTimes.designer.cs">
+      <DependentUpon>202001171353570_GolsTimes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001171531193_JogoEncerrado.cs" />
+    <Compile Include="Migrations\202001171531193_JogoEncerrado.designer.cs">
+      <DependentUpon>202001171531193_JogoEncerrado.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Jogo.cs" />
     <Compile Include="Models\Time.cs" />
@@ -287,6 +295,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202001152008427_Rodadas1.resx">
       <DependentUpon>202001152008427_Rodadas1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001171353570_GolsTimes.resx">
+      <DependentUpon>202001171353570_GolsTimes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001171531193_JogoEncerrado.resx">
+      <DependentUpon>202001171531193_JogoEncerrado.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
