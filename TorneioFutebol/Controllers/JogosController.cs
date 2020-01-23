@@ -27,6 +27,7 @@ namespace TorneioFutebol.Controllers
 
         public ActionResult GerarResultado(int idTorneio, int rodada)
         {
+            //db.Torneios.Include(T => T.Jogos).Include(T => T.Times).Load();
             Torneio torneio = db.Torneios.Find(idTorneio);
 
             torneio.GerarResultados(db, rodada);
