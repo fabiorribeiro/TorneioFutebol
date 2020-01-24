@@ -26,8 +26,10 @@
                         @Html.DisplayFor(modelItem => item.Nome)
                     </td>
                     <td>
-                        @Html.ActionLink("Editar time", "Edit", "./Times", new { id = item.Id, idTorneio = Model.Id }, null) |
-                        @Html.ActionLink("Excluir", "Delete", "./Times", new { id = item.Id, idTorneio = Model.Id }, null)
+                        @Html.ActionLink("Editar time", "Edit", "./Times", new { id = item.Id, idTorneio = Model.Id }, null)
+                        @if (!Model.JogosDefinidos()) {
+                            @Html.ActionLink("| Excluir", "Delete", "./Times", new { id = item.Id, idTorneio = Model.Id }, null) 
+                        }
                     </td>
                 </tr>
             }

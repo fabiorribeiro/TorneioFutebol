@@ -44,7 +44,7 @@ namespace TorneioFutebol.Models
             return false;
         }
 
-        public bool DefinirJogos(TorneioContext db)
+        public void DefinirJogos(TorneioContext db)
         {
             if (Jogos.Count == TotalTimes - 1 && Times.Count == TotalTimes)
             {
@@ -62,9 +62,28 @@ namespace TorneioFutebol.Models
                 db.Entry(this).State = EntityState.Modified;
                 db.SaveChanges();
             }
-
-            return true;
         }
+
+        private void DefinirJogos(TorneioContext db, int numRodada)
+        {
+            int totalRodadas = Rodadas();
+            if (numRodada < totalRodadas)
+            {
+                var times = Times.ToList();
+                var jogosRodadaAtual = JogosPorRodada(numRodada);
+                var jogosProximaRodada = JogosPorRodada(numRodada + 1);
+
+                for (int i = 0; i < jogosProximaRodada.Count; i++)
+                {
+                    if (jogosRodadaAtual[i * 2].JogoEncerrado) { jogosProximaRodada[i].Time1 = times.Find(t => t.Id == jogosRodadaAtual[i * 2].IdTimeVencedor); }
+                    if (jogosRodadaAtual[(i * 2) + 1].JogoEncerrado) { jogosProximaRodada[i].Time2 = times.Find(t => t.Id == jogosRodadaAtual[(i * 2) + 1].IdTimeVencedor); }
+                }
+
+                db.Entry(this).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+        }
+
 
         private List<int> mapearJogosRodadas(int numTimes) {
             List<int> jogosRodadas = new List<int>();
@@ -120,6 +139,13 @@ namespace TorneioFutebol.Models
                     db.SaveChanges();
                 }
             }
+
+            DefinirJogos(db, numRodada);
+        }
+
+        public Time Vencedor()
+        {
+            return Times.ToList().Find(T => T.Id == Jogos.Last().IdTimeVencedor);
         }
 
         public int Rodadas()
